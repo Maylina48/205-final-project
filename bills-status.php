@@ -9,7 +9,9 @@ session_start();
 // $users=array($user);
 // $_SESSION['userInfo'] = $users;
 
-$auth->validateUserStatus();
+if (!isset($_SESSION['userInfo'])) {
+    $auth->redirect('index.php');
+}
 
 $userId=$_SESSION['userInfo'][0]['id'];
 
@@ -42,7 +44,7 @@ function getUserBills($userId, $thisDatabaseReader){
 function getBillById($billId, $thisDatabaseReader){
     $data = array($billId);
     $query = 'SELECT * ';
-    $query .= 'FROM BILL ';
+    $query .= 'FROM bill ';
     $query .= 'WHERE id = ? ';
     $query = $thisDatabaseReader->sanitizeQuery($query);
     $records = $thisDatabaseReader->select($query, $data);
@@ -53,7 +55,7 @@ function getBillById($billId, $thisDatabaseReader){
 function getAddressById($addressId, $thisDatabaseReader){
     $data = array($addressId);
     $query = 'SELECT * ';
-    $query .= 'FROM ADDRESS ';
+    $query .= 'FROM address ';
     $query .= 'WHERE id = ? ';
     $query = $thisDatabaseReader->sanitizeQuery($query);
     $records = $thisDatabaseReader->select($query, $data);
